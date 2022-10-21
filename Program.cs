@@ -32,34 +32,35 @@ internal class Program
         }
 
         //Теперь обсчитываем сечение
-        for (int i = 1; i < 59; i++)
-        {
-            if (i >= 18 && i <= 42)
-            {
-                for (int j = 1; j < 17; j++)
-                {
-                    temperature[i, j] = 1.0/4*(temperature[i - 1, j] + temperature[i, j - 1] + temperature[i + 1, j] + temperature[i, j + 1]);
-                }
-                for (int j = 43; j < 59; j++)
-                {
-                    temperature[i, j] = 1.0 / 4 * (temperature[i - 1, j] + temperature[i, j - 1] + temperature[i + 1, j] + temperature[i, j + 1]);
-                }
-            }
-            else
-            {
-                for (int j = 1; j < 59; j++)
-                {
-                    temperature[i, j] = 1.0 / 4 * (temperature[i - 1, j] + temperature[i, j - 1] + temperature[i + 1, j] + temperature[i, j + 1]);
-                }
-            }
-        }
+        //for (int i = 1; i < 59; i++)
+        //{
+        //    if (i >= 18 && i <= 42)
+        //    {
+        //        for (int j = 1; j < 17; j++)
+        //        {
+        //            temperature[i, j] = 1.0/4*(temperature[i - 1, j] + temperature[i, j - 1] + temperature[i + 1, j] + temperature[i, j + 1]);
+        //        }
+        //        for (int j = 43; j < 59; j++)
+        //        {
+        //            temperature[i, j] = 1.0 / 4 * (temperature[i - 1, j] + temperature[i, j - 1] + temperature[i + 1, j] + temperature[i, j + 1]);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        for (int j = 1; j < 59; j++)
+        //        {
+        //            temperature[i, j] = 1.0 / 4 * (temperature[i - 1, j] + temperature[i, j - 1] + temperature[i + 1, j] + temperature[i, j + 1]);
+        //        }
+        //    }
+        //}
 
         //Выводим значения
         for (int j = 60; j >= 0; j--)
         {
             for (int i = 0; i <= 60; i++)
             {
-                Console.Write(temperature[i, j]);
+                var temp = string.Format("{0:f0}", temperature[i, j]);
+                Console.Write($"{temp, 3}", temp);
             }
             Console.WriteLine();
         }
