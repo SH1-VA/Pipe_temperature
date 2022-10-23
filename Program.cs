@@ -47,6 +47,7 @@ internal class Program
         double max_delta_temperature_in_ineration = 0;
         double delta_temperature = 0.002;
         double new_temperature;
+        int number_of_iteration = 1;
 
         while (delta_temperature > 0.001)
         //for(int k = 0; k < 100000; k++)
@@ -88,6 +89,8 @@ internal class Program
             if (max_delta_temperature_in_ineration < delta_temperature)
                 delta_temperature = max_delta_temperature_in_ineration;
             max_delta_temperature_in_ineration = 0;
+
+            number_of_iteration++;
         }
 
         //=================================================================Выводим значения=================================================================
@@ -102,5 +105,6 @@ internal class Program
         }
         Console.WriteLine();
         Console.WriteLine($"Максимальная разница между старыми и новыми значениями в узле на итерации окончания пересчётов: {{0:f3}}", delta_temperature);
+        Console.WriteLine($"Номер итерации окончания: {number_of_iteration}");
     }
 }
