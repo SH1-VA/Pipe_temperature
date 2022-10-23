@@ -44,7 +44,12 @@ internal class Program
         //Console.WriteLine();
 
         //=================================================================Теперь обсчитываем сечение=================================================================
-        for (int k = 0; k < 9; k++)
+        double max_delta_temperature_in_ineration = 0;
+        double delta_temperature = 0.002;
+        double new_temperature;
+
+        while (delta_temperature > 0.001)
+        //for(int k = 0; k < 100000; k++)
         {
             for (int i = 1; i <= 59; i++)
             {
@@ -52,10 +57,16 @@ internal class Program
                 {
                     for (int j = 1; j <= 17; j++)
                     {
+                        new_temperature = 1.0 / 4 * (temperature[i - 1, j] + temperature[i, j - 1] + temperature[i + 1, j] + temperature[i, j + 1]);
+                        if (Math.Abs(new_temperature - temperature[i, j]) > max_delta_temperature_in_ineration)
+                            max_delta_temperature_in_ineration = Math.Abs(new_temperature - temperature[i, j]);
                         temperature[i, j] = 1.0 / 4 * (temperature[i - 1, j] + temperature[i, j - 1] + temperature[i + 1, j] + temperature[i, j + 1]);
                     }
                     for (int j = 43; j <= 59; j++)
                     {
+                        new_temperature = 1.0 / 4 * (temperature[i - 1, j] + temperature[i, j - 1] + temperature[i + 1, j] + temperature[i, j + 1]);
+                        if (Math.Abs(new_temperature - temperature[i, j]) > max_delta_temperature_in_ineration)
+                            max_delta_temperature_in_ineration = Math.Abs(new_temperature - temperature[i, j]);
                         temperature[i, j] = 1.0 / 4 * (temperature[i - 1, j] + temperature[i, j - 1] + temperature[i + 1, j] + temperature[i, j + 1]);
                     }
                 }
@@ -63,10 +74,20 @@ internal class Program
                 {
                     for (int j = 1; j <= 59; j++)
                     {
+                        new_temperature = 1.0 / 4 * (temperature[i - 1, j] + temperature[i, j - 1] + temperature[i + 1, j] + temperature[i, j + 1]);
+                        if (Math.Abs(new_temperature - temperature[i, j]) > max_delta_temperature_in_ineration)
+                            max_delta_temperature_in_ineration = Math.Abs(new_temperature - temperature[i, j]);
                         temperature[i, j] = 1.0 / 4 * (temperature[i - 1, j] + temperature[i, j - 1] + temperature[i + 1, j] + temperature[i, j + 1]);
                     }
                 }
             }
+
+            //Падение погрешности
+            //Console.WriteLine(max_delta_temperature_in_ineration);
+
+            if (max_delta_temperature_in_ineration < delta_temperature)
+                delta_temperature = max_delta_temperature_in_ineration;
+            max_delta_temperature_in_ineration = 0;
         }
 
         //=================================================================Выводим значения=================================================================
@@ -79,5 +100,7 @@ internal class Program
             }
             Console.WriteLine();
         }
+        Console.WriteLine();
+        Console.WriteLine($"Максимальная разница между старыми и новыми значениями в узле на итерации окончания пересчётов: {{0:f3}}", delta_temperature);
     }
 }
